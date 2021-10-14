@@ -42,8 +42,9 @@
         $(document).ready(function() {
 
         });
-
+        
         function like(id) {
+            let count = 0;
             $.ajax({
                 url : '/likes/assess-like',
                 type : 'GET',
@@ -52,11 +53,11 @@
                     user_id : "{{ Auth::id() }}",
                 },
                 success : function(result) {
-                    
                     var data = JSON.parse(result);
                         
                     console.log(data);
 
+                    
                     if(data['result'] == 'liked'){
                         $.ajax({
                             url : '/likes/like',
@@ -67,9 +68,16 @@
                             },
                             success : function(response) {
                                 $('#heart-' + id).removeClass('far fa-heart').addClass('fas fa-heart');
-                                var increment = parseInt($('#like-' + id).text()) + 1;
-                                $('#like-' + id).text(increment);
+                                
                                 console.log('code 1')
+
+                                var increment = parseInt($('#like-' + id).text()) + 1;
+                                $('#like-' + id).text(increment);   
+                                console.log(count = 1);
+                                
+                                if(count == 1){
+                                    window.location.reload();
+                                }
 
                             },
                             error : function(error) {
@@ -81,7 +89,9 @@
                             $('#heart-' + id).removeClass('fas fa-heart').addClass('far fa-heart');
                             var decrement = parseInt($('#like-' + id).text()) - 1;
                             $('#like-' + id).text(decrement);
-                            console.log('code 2')
+                            console.log('code 2');
+                            count = 0;
+                            console.log("count: "+count);
                         }
                     }
                 },
@@ -89,6 +99,7 @@
                     alert('Error liking this Sheeet!');
                 }
              });
+            
         }
-    </script>
+        </script>
 @endpush
