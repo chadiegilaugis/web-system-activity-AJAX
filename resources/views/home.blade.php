@@ -52,8 +52,6 @@
                     user_id : "{{ Auth::id() }}",
                 },
                 success : function(result) {
-                    // $('#heart-' + id).removeClass('fas fa-heart').addClass('far fa-heart');
-                    // var data = JSON.parse(result);
                     
                     var data = JSON.parse(result);
                         
@@ -81,8 +79,8 @@
                     } else{
                         if(data['result'] == 'unliked'){
                             $('#heart-' + id).removeClass('fas fa-heart').addClass('far fa-heart');
-                            var increment = parseInt($('#like-' + id).text()) - 1;
-                            $('#like-' + id).text(increment);
+                            var decrement = parseInt($('#like-' + id).text()) - 1;
+                            $('#like-' + id).text(decrement);
                             console.log('code 2')
                         }
                     }
