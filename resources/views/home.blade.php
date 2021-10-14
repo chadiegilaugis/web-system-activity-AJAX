@@ -57,49 +57,37 @@
                         
                     console.log(data);
 
-                    
-                    if(data['result'] == 'liked'){
-                        $.ajax({
-                            url : '/likes/like',
-                            type : 'POST',
-                            data : {
-                                _token : "{{ csrf_token() }}",
-                                post_id : id,
-                            },
-                            success : function(response) {
-                                $('#heart-' + id).removeClass('far fa-heart').addClass('fas fa-heart');
-                                
-                                console.log('code 1')
-
-                                var increment = parseInt($('#like-' + id).text()) + 1;
-                                $('#like-' + id).text(increment);   
-                                console.log(count = 1);
-                                
-                                if(count == 1){
-                                    window.location.reload();
-                                }
-
-                            },
-                            error : function(error) {
-                                alert('Error liking this bitch!');
-                            }
-                        });
-                    } else{
-                        if(data['result'] == 'unliked'){
-                            $('#heart-' + id).removeClass('fas fa-heart').addClass('far fa-heart');
-                            var decrement = parseInt($('#like-' + id).text()) - 1;
-                            $('#like-' + id).text(decrement);
-                            console.log('code 2');
-                            count = 0;
-                            console.log("count: "+count);
-                        }
+                    if (data['result'] == 'liked') {
+                        addLike(id);
+                    } else {
+                        $('#heart-' + id).removeClass('fas fa-heart').addClass('far fa-heart');
+                        $('#like-' + id).text(parseInt($('#like-' + id).text())-1);
                     }
+                  
                 },
                 error : function(error) {
                     alert('Error liking this Sheeet!');
                 }
              });
             
+        }
+        function addLike(id) {
+            $.ajax({
+                url : '/likes/like',
+                type : 'POST',
+                data : {
+                    _token : "{{ csrf_token() }}",
+                    post_id : id,
+                },
+                success : function(response) {
+                    $('#heart-' + id).removeClass('far fa-heart').addClass('fas fa-heart');
+                    var increment = parseInt($('#like-' + id).text()) + 1;
+                    $('#like-' + id).text(increment);
+                },
+                error : function(error) {
+                    alert('Error liking this bitch!');
+                }
+            });
         }
         </script>
 @endpush
